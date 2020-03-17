@@ -18,6 +18,9 @@ module.exports = sequelize.define('reports',{
     userID:{
         type: Sequelize.INTEGER
     },
+    morada:{
+        type: Sequelize.STRING
+    },
     img:{
         type:Sequelize.STRING
     }

@@ -8,9 +8,9 @@ const app = express();
 app.use(bodyParser.json());
 
 
-
-
-
+//------------------------------------------------------------------------------
+// ------------ USERS ----------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Get All users
 app.get('/api/getAllUsers', function (request, response) {
     Users.findAll().then((users) =>{
@@ -21,6 +21,7 @@ app.get('/api/getAllUsers', function (request, response) {
         }
     });
 });
+
 
 // ---------------------------------------------------------------------------------------------------------------------------
 // Get user by ID
@@ -51,47 +52,6 @@ app.get('/api/getUserByIDBody', function (request, response) {
     });
 
 });
-
-
-// ---------------------------------------------------------------------------------------------------------------------------
-// Get all reports 
-app.get('/api/getAllReports', function(request,response){
-    Reports.findAll().then((reports) =>{
-        if(reports){
-            response.json(reports);
-        }else{
-            response.status(404).send();
-        }
-    })
-})
-
-// ---------------------------------------------------------------------------------------------------------------------------
-// Get report by ID 
-app.get('/api/getReportByID/:id', function(request,response){
-    let { id }= request.params;
-
-    Reports.findByPk(id).then((reports) =>{
-        if(reports){
-            response.json(reports);
-        }else{
-            response.status(404).send();
-        }
-    })
-});
-
-// ---------------------------------------------------------------------------------------------------------------------------
-// Get report by ID , with data passed on the body
-app.get('/api/getReportByIDBody', function(request,response){
-  let data = {id:request.body.id}
-
-    Reports.findByPk(data.id).then((reports) =>{
-        if(reports){
-            response.json(reports);
-        }else{
-            response.status(404).send();
-        }
-    })
-})
 
 // --------------------------------------------------------------------------------
 // Check user
@@ -137,9 +97,11 @@ app.get('/api/checkUser2/:email/:password', function(request,response){
         }
     }).then((users) =>{
         if(users !== null){
+            console.log("Check user sucesso");
             response.status(200).json(users);
         }else{
             response.status(401).send();
+            console.log("Check user erro");
         }
     });
 });
@@ -175,7 +137,50 @@ app.post('/api/registerUser', function(request,response){
 });
 
 
+// -----------------------------------------------------------
+// -----------------------------------------------------------
+// -----------------------------------------------------------
+// -----------------------------------------------------------
+//--------- REPORTS ------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------
+// Get all reports 
+app.get('/api/getAllReports', function(request,response){
+    Reports.findAll().then((reports) =>{
+        if(reports){
+            response.json(reports);
+        }else{
+            response.status(404).send();
+        }
+    })
+});
 
+// ---------------------------------------------------------------------------------------------------------------------------
+// Get report by ID 
+app.get('/api/getReportByID/:id', function(request,response){
+    let { id }= request.params;
+
+    Reports.findByPk(id).then((reports) =>{
+        if(reports){
+            response.json(reports);
+        }else{
+            response.status(404).send();
+        }
+    })
+});
+
+// ---------------------------------------------------------------------------------------------------------------------------
+// Get report by ID , with data passed on the body
+app.get('/api/getReportByIDBody', function(request,response){
+  let data = {id:request.body.id}
+
+    Reports.findByPk(data.id).then((reports) =>{
+        if(reports){
+            response.json(reports);
+        }else{
+            response.status(404).send();
+        }
+    })
+});
 
 
 
