@@ -187,8 +187,8 @@ app.get('/api/getReportByIDBody', function(request,response){
 app.post('/api/newReport', function(request,response){
     let data = {
         description:request.body.description,
-        long:request.body.long,
-        lat:request.body.lat,
+        longitude:request.body.longitude,
+        latitude:request.body.latitude,
         img:request.body.img,
         morada:request.body.morada,
         userID:request.body.userID
@@ -197,8 +197,8 @@ app.post('/api/newReport', function(request,response){
 
     Reports.create({
         description:data.description,
-        longitude:data.long,
-        latitude:data.lat,
+        longitude:data.longitude,
+        latitude:data.latitude,
         userID: data.userID,
         morada: data.morada,
         img:data.img,
