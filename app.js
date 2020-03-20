@@ -41,7 +41,7 @@ app.get('/api/getUserByID/:id', function (request, response) {
 // ---------------------------------------------------------------------------------------------------------------------------
 // Get user by ID
 app.get('/api/getUserByIDBody', function (request, response) {
-    let data = {id:request.body.id}
+    let data = {id:request.body.id};
 
     Users.findByPk(data.id).then((users) =>{
         if(users){
@@ -171,7 +171,7 @@ app.get('/api/getReportByID/:id', function(request,response){
 // ---------------------------------------------------------------------------------------------------------------------------
 // Get report by ID , with data passed on the body
 app.get('/api/getReportByIDBody', function(request,response){
-  let data = {id:request.body.id}
+  let data = {id:request.body.id};
 
     Reports.findByPk(data.id).then((reports) =>{
         if(reports){
@@ -180,6 +180,38 @@ app.get('/api/getReportByIDBody', function(request,response){
             response.status(404).send();
         }
     })
+});
+
+
+// Add new report
+app.post('/api/newReport', function(request,response){
+    let data = {
+        description:request.body.description,
+        long:request.body.long,
+        lat:request.body.lat,
+        img:request.body.img,
+        morada:request.body.morada,
+        userID:request.body.userID
+    };
+
+
+    Reports.create({
+        description:data.description,
+        longitude:data.long,
+        latitude:data.lat,
+        userID: data.userID,
+        morada: data.morada,
+        img:data.img,
+    }).then(newreport =>{
+        if(newreport){
+            response.status(201).json(newreport);
+        }else{
+            response.status(404).send();
+        }
+    }).catch(error => {
+        console.log(error)
+    })
+
 });
 
 
