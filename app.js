@@ -182,6 +182,26 @@ app.get('/api/getReportByIDBody', function(request,response){
     })
 });
 
+// ---------------------------------------------------------------------------------------------------------------------------
+// Get description from report
+app.get('/api/getDescription', function(request,response){
+    let data = {
+        img:request.body.img
+    };
+
+    Reports.findAll({
+        where:{
+            img: data.img
+        }
+    }).then((reports) =>{
+            if(reports){
+                response.json(reports);
+            }else{
+                response.status(404).send();
+            }
+    })
+});
+
 
 // -------------------------------------------------------------------------------------------------------
 // Add new report
