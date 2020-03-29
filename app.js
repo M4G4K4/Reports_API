@@ -262,7 +262,7 @@ app.post('/api/deleteReport', function(request,response){
 
 // -------------------------------------------------------------------------------------------------------
 // Update Report
-app.put('/api/deleteReport', function(request,response){
+app.put('/api/editReport', function(request,response){
     let data = {
         description: request.body.description,
         img: request.body.img
