@@ -183,6 +183,7 @@ app.get('/api/getReportByIDBody', function(request,response){
 });
 
 
+// -------------------------------------------------------------------------------------------------------
 // Add new report
 app.post('/api/newReport', function(request,response){
     let data = {
@@ -214,9 +215,59 @@ app.post('/api/newReport', function(request,response){
 
 });
 
+// -------------------------------------------------------------------------------------------------------
+// Delete Report
+app.post('/api/deleteReport', function(request,response){
+    let data = {
+        img: request.body.img
+    };
+
+
+    Reports.destroy({
+        where: {
+            img : data.img,
+        }
+    }).then(newreport =>{
+        if(newreport){
+            response.status(200).json(newreport);
+        }else{
+            response.status(404).send();
+        }
+    }).catch(error => {
+        console.log(error)
+    })
+
+});
+
+
+// -------------------------------------------------------------------------------------------------------
+// Update Report
+app.put('/api/deleteReport', function(request,response){
+    let data = {
+        description: request.body.description,
+        img: request.body.img
+    };
+
+
+    Reports.update({ description: data.description }, {
+        where: {
+            img : data.img,
+        }
+    }).then(newreport =>{
+        if(newreport){
+            response.status(200).json(newreport);
+        }else{
+            response.status(404).send();
+        }
+    }).catch(error => {
+        console.log(error)
+    })
+
+});
 
 
 
+// -------------------------------------------------------------------------------------------------
 //Server listening
 app.listen(3000,() =>{
     console.log('Server started on port 3000');
