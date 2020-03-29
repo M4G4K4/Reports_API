@@ -259,6 +259,30 @@ app.post('/api/deleteReport', function(request,response){
 
 });
 
+// -------------------------------------------------------------------------------------------------------
+// Delete Report
+app.post('/api/deleteReport2/:img', function(request,response){
+    let data = {
+        img: request.params.img
+    };
+
+
+    Reports.destroy({
+        where: {
+            img : data.img,
+        }
+    }).then(newreport =>{
+        if(newreport){
+            response.status(200).json(newreport);
+        }else{
+            response.status(404).send();
+        }
+    }).catch(error => {
+        console.log(error)
+    })
+
+});
+
 
 // -------------------------------------------------------------------------------------------------------
 // Update Report
@@ -266,6 +290,32 @@ app.put('/api/editReport', function(request,response){
     let data = {
         description: request.body.description,
         img: request.body.img
+    };
+
+
+    Reports.update({ description: data.description }, {
+        where: {
+            img : data.img,
+        }
+    }).then(newreport =>{
+        if(newreport){
+            response.status(200).json(newreport);
+        }else{
+            response.status(404).send();
+        }
+    }).catch(error => {
+        console.log(error)
+    })
+
+});
+
+
+// -------------------------------------------------------------------------------------------------------
+// Update Report 2
+app.put('/api/editReport2/:img/:description', function(request,response){
+    let data = {
+        description: request.params.description,
+        img: request.params.img
     };
 
 
