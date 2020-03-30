@@ -249,7 +249,7 @@ app.post('/api/deleteReport', function(request,response){
         }
     }).then(newreport =>{
         if(newreport){
-            response.status(200).json(newreport);
+            response.status(200).json(data);
         }else{
             response.status(404).send();
         }
@@ -273,7 +273,7 @@ app.post('/api/deleteReport2/:img', function(request,response){
         }
     }).then(newreport =>{
         if(newreport){
-            response.status(200).json(newreport);
+            response.status(200).json(data);
         }else{
             response.status(404).send();
         }
@@ -299,7 +299,7 @@ app.put('/api/editReport', function(request,response){
         }
     }).then(newreport =>{
         if(newreport){
-            response.status(200).json(newreport);
+            response.status(200).json(data);
         }else{
             response.status(404).send();
         }
@@ -325,7 +325,7 @@ app.put('/api/editReport2/:img/:description', function(request,response){
         }
     }).then(newreport =>{
         if(newreport){
-            response.status(200).json(newreport);
+            response.status(200).json(data);
         }else{
             response.status(404).send();
         }
