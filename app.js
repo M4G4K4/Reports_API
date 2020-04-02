@@ -335,6 +335,29 @@ app.put('/api/editReport2/:img/:description', function(request,response){
 
 });
 
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------TOKEN-------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------
+// Add Token
+app.post('/api/newToken', function(request,response){
+    let data = {
+        token:request.body.token,
+    };
+
+    Tokens.create({
+        token:data.token
+    }).then(newToken =>{
+        if(newToken){
+            response.status(201).json(data);
+        }else{
+            response.status(404).send();
+        }
+    }).catch(error => {
+        console.log(error)
+    })
+});
+
+
 
 
 // -------------------------------------------------------------------------------------------------
