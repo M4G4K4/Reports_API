@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const Users = require('./models/users');
 const Reports = require('./models/reports');
+const Tokens = require('./models/tokens');
 
 const app = express();
 
