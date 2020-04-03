@@ -4,6 +4,16 @@ const Users = require('./models/users');
 const Reports = require('./models/reports');
 const Tokens = require('./models/tokens');
 
+// Firebase
+const admin = require('firebase-admin');
+const serviceAccount = require("./reports-271019-firebase-adminsdk-xlw2d-c97822b54e.json");
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://reports-271019.firebaseio.com"
+});
+// -----
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -227,13 +237,13 @@ app.post('/api/newReport', function(request,response){
     }).then(newreport =>{
         if(newreport){
             response.status(201).json(newreport);
+            notification(data.description,data.morada);
         }else{
             response.status(404).send();
         }
     }).catch(error => {
         console.log(error)
     })
-
 });
 
 // -------------------------------------------------------------------------------------------------------
@@ -336,6 +346,7 @@ app.put('/api/editReport2/:img/:description', function(request,response){
 
 });
 
+
 //------------------------------------------------------------------------------------------------------
 //------------------------------------------TOKEN-------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------------
@@ -357,6 +368,60 @@ app.post('/api/newToken', function(request,response){
         console.log(error)
     })
 });
+
+
+// Send Notifications
+app.get('/api/notification', function(request,response){
+    // buscar os tokens todos e adicionar para: registrationTokens
+    // Buscar o ultimo report adicionado , retornar descrição e morada , adicionar para: data
+
+    Tokens.findAll().then((tokens) => {
+        if(tokens){
+            var finalArray = tokens.map(function (obj) {
+                return obj.token;
+            });
+            response.status(200).send(finalArray);
+            pushNotification(finalArray,"Title text","Body Text");
+        }else{
+            console.log("Erro: " + error);
+        }
+    });
+
+
+});
+
+
+function notification(title,body) {
+    Tokens.findAll().then((tokens) => {
+        if(tokens){
+            var finalArray = tokens.map(function (obj) {
+                return obj.token;
+            });
+            pushNotification(finalArray,"Novo relato: " + title,body);
+        }else{
+            console.log("Erro: " + error);
+        }
+    });
+}
+
+
+function pushNotification(registrationTokens,title,body) {
+    const message =  {
+        notification: {
+            title: title,
+            body: body,
+        },
+        tokens:registrationTokens
+    };
+
+    admin.messaging().sendMulticast(message)
+        .then((response) => {
+            console.log(response.successCount + ' messages were sent successfully');
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
 
 
 
