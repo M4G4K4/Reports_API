@@ -440,7 +440,7 @@ function pushNotification2(title,body) {
     //Firebase
     admin.messaging().send(message)
         .then((response) => {
-            console.log(response.successCount + ' messages were sent successfully');
+            console.log(response + ' messages were sent successfully');
         })
         .catch((error) => {
             console.log(error);
