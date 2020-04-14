@@ -226,13 +226,12 @@ app.post('/api/newReport', function(request,response){
         userID:request.body.userID
     };
 
-
     Reports.create({
         description:data.description,
         longitude:data.longitude,
         latitude:data.latitude,
         userID: data.userID,
-        morada: data.morada,
+        morada: data.morada,                         
         img:data.img,
     }).then(newreport =>{
         if(newreport){
@@ -397,15 +396,17 @@ function notification(title,body) {
             var finalArray = tokens.map(function (obj) {
                 return obj.token;
             });
-            pushNotification(finalArray,"Novo relato: " + title,body);
+            //pushNotification(finalArray,"Novo relato: " + title,body);
+            pushNotification2("Novo relato: " + title,body);
         }else{
             console.log("Erro: " + error);
         }
     });
 }
 
-
+// Send notifcation with tokens
 function pushNotification(registrationTokens,title,body) {
+    
     const message =  {
         notification: {
             title: title,
@@ -413,8 +414,31 @@ function pushNotification(registrationTokens,title,body) {
         },
         tokens:registrationTokens
     };
-
+    //Firebase
     admin.messaging().sendMulticast(message)
+        .then((response) => {
+            console.log(response.successCount + ' messages were sent successfully');
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+
+// Notification about topic
+function pushNotification2(title,body) {
+    var topic = "notification"
+    
+    const message =  {
+        notification: {
+            title: title,
+            body: body,
+        },
+        topic: topic
+    };
+
+    //Firebase
+    admin.messaging().send(message)
         .then((response) => {
             console.log(response.successCount + ' messages were sent successfully');
         })
