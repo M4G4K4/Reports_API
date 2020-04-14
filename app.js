@@ -236,7 +236,8 @@ app.post('/api/newReport', function(request,response){
     }).then(newreport =>{
         if(newreport){
             response.status(201).json(newreport);
-            notification(data.description,data.morada);
+            //notification(data.description,data.morada);
+            notification2(data.description,data.morada);
         }else{
             response.status(404).send();
         }
@@ -424,6 +425,16 @@ function pushNotification(registrationTokens,title,body) {
         });
 }
 
+
+//#########################################################
+// ------------- Update Topic -----------------------------
+//########################################################
+
+
+
+function notification2(title,body) {
+    pushNotification2("Novo relato: " + title,body);
+}
 
 // Notification about topic
 function pushNotification2(title,body) {
