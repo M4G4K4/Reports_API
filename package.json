@@ -5,7 +5,7 @@
     "axios": "^0.21.2",
     "body-parser": "latest",
     "express": "latest",
-    "firebase-admin": "^11.0.1",
+    "firebase-admin": "^11.4.1",
     "mysql2": "^2.1.0",
     "sequelize": "^5.22.5"
   }
